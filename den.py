@@ -30,3 +30,10 @@ decode(0)
 
 inFile.close
 #--------------------------------------------
+#    OOOOOOO
+#   O\O   O O
+#  O\\\O O   O
+#  OOOOOOOOOOO
+#  O   O O\\\O
+#   O O   O\O
+#    OOOOOOO
