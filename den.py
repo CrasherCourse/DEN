@@ -1,6 +1,7 @@
 # Welcome to den
 # The encoder/decoder
-
+import sys
+import argparse
 # Function Defs
 #---------------------------------
 # get Shift Keys
@@ -51,12 +52,24 @@ def decode( password ):
 	return
 #--------------------------------------------
 # Main
-inFile = open("test.txt", "r")
+parser = argparse.ArgumentParser(description='Encode or decode a given text file')
+parser.add_argument('<file name>', type=str, help='The name of the target file')
+parser.add_argument('e/d', type=chr, help='choose either e for encoding, or d for decodeing')
+args = parser.parse_args()
+
+if len(sys.argv) != 2:
+	print "Usage: %s filename" % sys.argv[0]
+	exit
+fileName = sys.argv[1]
+
+inFile = open(fileName, "r")
 encode( "01234" )
 inFile.close
-inFile = open("test.txt.encoded", "r")
+inFile = open(fileName + ".encoded", "r")
 decode( "01234" )
 inFile.close
+
+
 
 #--------------------------------------------
 #    OOOOOOO
