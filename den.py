@@ -1,6 +1,7 @@
 # Welcome to den
 # The encoder/decoder
-
+import sys
+import argparse
 # Function Defs
 #---------------------------------
 # get Shift Keys
@@ -21,10 +22,9 @@ def charShift( ch, shift):
 	return str(unichr(retval))
 
 # encode function
-def encode( password ):
+def encode(fileName, password ):
 	index = 0
 	keys = getShiftKeys( password )
-	outFile = open("test.txt.encoded", "w")
 	for line in inFile:
 		text = ""
 		for c in line.rstrip("\n"):
@@ -36,10 +36,9 @@ def encode( password ):
 	return
 
 # decode function
-def decode( password ):
+def decode(fileName, password ):
 	index = 0
 	keys = getShiftKeys( password )
-	outFile = open("test.txt.decoded", "w")
 	for line in inFile:
 		text = ""
 		for c in line.rstrip("\n"):
@@ -51,13 +50,27 @@ def decode( password ):
 	return
 #--------------------------------------------
 # Main
-inFile = open("test.txt", "r")
-encode( "01234" )
-inFile.close
-inFile = open("test.txt.encoded", "r")
-decode( "01234" )
-inFile.close
+parser = argparse.ArgumentParser(description='Encode or decode a given text file.  Encodes by default')
+parser.add_argument('-d', help='have den decode the file', action='store_true')
+parser.add_argument('filename', type=str, help='The name of the target file')
+parser.add_argument('password', help='The password used for encoding/decoding')
+parser.add_argument('-o', '--output', type=str, help='Name of the output file')
+args = parser.parse_args()
 
+inFile = open(args.filename, 'r')
+if args.o != None:
+	print args.o
+	outFile = open(args.o, 'w')
+else:
+	outFile = open(args.filename + (".decoded" if args.d else ".encoded"), "w")
+
+if args.d:
+	print "Decoding: %s" % args.filename
+	decode(args.filename, args.password)
+else:
+	print "Encoding: %s" % args.filename 
+	encode(args.filename, args.password)
+print "Done"
 #--------------------------------------------
 #    OOOOOOO
 #   O\O   O O
