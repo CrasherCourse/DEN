@@ -25,7 +25,6 @@ def charShift( ch, shift):
 def encode(fileName, password ):
 	index = 0
 	keys = getShiftKeys( password )
-	outFile = open(fileName + ".encoded", "w")
 	for line in inFile:
 		text = ""
 		for c in line.rstrip("\n"):
@@ -40,7 +39,6 @@ def encode(fileName, password ):
 def decode(fileName, password ):
 	index = 0
 	keys = getShiftKeys( password )
-	outFile = open(fileName + ".decoded", "w")
 	for line in inFile:
 		text = ""
 		for c in line.rstrip("\n"):
@@ -56,9 +54,15 @@ parser = argparse.ArgumentParser(description='Encode or decode a given text file
 parser.add_argument('-d', help='have den decode the file', action='store_true')
 parser.add_argument('filename', type=str, help='The name of the target file')
 parser.add_argument('password', help='The password used for encoding/decoding')
+parser.add_argument('-o', type=str, help='Name of the output file')
 args = parser.parse_args()
 
 inFile = open(args.filename, 'r')
+if args.o != None:
+	print args.o
+	outFile = open(args.o, 'w')
+else:
+	outFile = open(args.filename + (".decoded" if args.d else ".encoded"), "w")
 
 if args.d:
 	print "Decoding: %s" % args.filename
