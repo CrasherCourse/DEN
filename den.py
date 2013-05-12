@@ -22,10 +22,10 @@ def charShift( ch, shift):
 	return str(unichr(retval))
 
 # encode function
-def encode( password ):
+def encode(fileName, password ):
 	index = 0
 	keys = getShiftKeys( password )
-	outFile = open("test.txt.encoded", "w")
+	outFile = open(fileName + ".encoded", "w")
 	for line in inFile:
 		text = ""
 		for c in line.rstrip("\n"):
@@ -37,10 +37,10 @@ def encode( password ):
 	return
 
 # decode function
-def decode( password ):
+def decode(fileName, password ):
 	index = 0
 	keys = getShiftKeys( password )
-	outFile = open("test.txt.decoded", "w")
+	outFile = open(fileName + ".decoded", "w")
 	for line in inFile:
 		text = ""
 		for c in line.rstrip("\n"):
@@ -52,25 +52,21 @@ def decode( password ):
 	return
 #--------------------------------------------
 # Main
-parser = argparse.ArgumentParser(description='Encode or decode a given text file')
-parser.add_argument('<file name>', type=str, help='The name of the target file')
-parser.add_argument('e/d', type=chr, help='choose either e for encoding, or d for decodeing')
+parser = argparse.ArgumentParser(description='Encode or decode a given text file.  Encodes by default')
+parser.add_argument('-d', help='have den decode the file', action='store_true')
+parser.add_argument('filename', type=str, help='The name of the target file')
+parser.add_argument('password', help='The password used for encoding/decoding')
 args = parser.parse_args()
 
-if len(sys.argv) != 2:
-	print "Usage: %s filename" % sys.argv[0]
-	exit
-fileName = sys.argv[1]
+inFile = open(args.filename, 'r')
 
-inFile = open(fileName, "r")
-encode( "01234" )
-inFile.close
-inFile = open(fileName + ".encoded", "r")
-decode( "01234" )
-inFile.close
-
-
-
+if args.d:
+	print "Decoding: %s" % args.filename
+	decode(args.filename, args.password)
+else:
+	print "Encoding: %s" % args.filename 
+	encode(args.filename, args.password)
+print "Done"
 #--------------------------------------------
 #    OOOOOOO
 #   O\O   O O
