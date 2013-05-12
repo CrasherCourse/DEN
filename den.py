@@ -54,7 +54,7 @@ parser = argparse.ArgumentParser(description='Encode or decode a given text file
 parser.add_argument('-d', help='have den decode the file', action='store_true')
 parser.add_argument('filename', type=str, help='The name of the target file')
 parser.add_argument('password', help='The password used for encoding/decoding')
-parser.add_argument('-o', type=str, help='Name of the output file')
+parser.add_argument('-o', '--output', type=str, help='Name of the output file')
 args = parser.parse_args()
 
 inFile = open(args.filename, 'r')
